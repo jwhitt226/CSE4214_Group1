@@ -56,9 +56,43 @@ Allows the user to search for books by titles, authors, and ISBN numbers. The us
 ### 3.5.2 Stimulus
 A user will use a search bar to search for a specific book by title, author, or ISBN number. The system will then search for books that are correlated with that title or author and display the results to the user. The user can also select a genre from a selection of genres to browse through.
 ### 3.5.3 Functional Requirements
-
+- 3.5.3.1 The system should display a search bar that the user can type in. 
+- 3.5.3.2 The system should display a search button that the user can click to initiate a search. 
+- 3.5.3.3 The system should provide the user with the search results. 
+- 3.5.3.4 The system should display an error if there are no listings that match the user’s search. 
+- 3.5.3.5 The system should also provide a menu of genres for the user to select. 
+- 3.5.3.6 The system should only show items that match the genre selected by the user. 
+- 3.5.3.7 The system should return search results in order with the items with the closes match with the search appearing first. 
+- 3.5.3.8 The user should be able to click on a book to see more information on it. 
 ## 3.6 Modify Cart
+### 3.6.1 Description 
+Users should be able to view their cart and add and remove items from their cart before continuing with the checkout process. 
+### 3.6.2 Stimulus 
+The user will click an “add to cart” button, and the system will add the item to a list of items that are to be purchased later. Alternatively, the user can click a “remove from cart” button that will remove an item that was previously added to the cart. The user can also click a “view cart” button to access their cart. 
+### 3.6.3 Functional Requirements 
+- 3.6.3.1 The user should be able to access their cart through a button. 
+- 3.6.3.2 The system should allow users to add books to their cart. 
+- 3.6.3.3 The system should allow the users to remove books from their cart. 
 ## 3.7 Checkout
+### 3.7.1 Description 
+User should be able to formally purchase all items currently present in their cart. They will pay the seller who listed each individual item via payment information that has already been stored in their account.  
+### 3.7.2 Stimulus 
+While viewing the cart, user will select the “Check Out” option. The system will calculate and provide an estimated total, as well as the list of items currently in that users cart. The user will select the “Place Order” option. The system will verify the payment method provided, pass the order along to the respective sellers, and reduce inventory as needed. Alternatively, if the payment method cannot be validated, the user will be notified via email and the order will not be placed. 
+### 3.7.3 Functional Requirements 
+- 3.7.3.1 User will be able to access checkout menu through a button. 
+- 3.7.3.2 User will be able to place order via a button. 
+- 3.7.3.3 System will be able to calculate and provide estimated total. 
+- 3.7.3.4 System will be able to verify payment method. 
+- 3.7.3.5 System will be able to pass order to the necessary sellers. 
+- 3.7.3.6 System will be able to manipulate inventory accordingly. 
 ## 3.8 Return Items
+### 3.8.1	Description  
+Users should be able to return items back to the seller that they previously purchased. Once the item is returned, the user will receive payment via store credit. 
+### 3.8.2	Stimulus/Response Sequences 
+The user will submit a return request, and the request will be reviewed and accepted or denied. Once the request is accepted and the seller confirms the item has been returned, the user will get their money back via store credit. 
+### 3.8.3	Functional Requirements 
+- 3.8.3.1 User should be able to submit a return request. 
+- 3.8.3.2 Seller should be able to confirm receipt of the return. 
+- 3.8.3.3 User should be refunded  via store credit. 
 # 4. Other Nonfuntional Requirements
 # 5. Other Requirements
