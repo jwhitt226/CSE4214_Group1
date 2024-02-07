@@ -108,7 +108,7 @@ The user will click an “add to cart” button, and the system will add the ite
 ## 3.7 Checkout
 ### 3.7.1 Description 
 User should be able to formally purchase all items currently present in their cart. They will pay the seller who listed each individual item via payment information that has already been stored in their account.  
-### 3.7.2 Stimulus 
+### 3.7.2 Stimulus
 While viewing the cart, user will select the “Check Out” option. The system will calculate and provide an estimated total, as well as the list of items currently in that users cart. The user will select the “Place Order” option. The system will verify the payment method provided, pass the order along to the respective sellers, and reduce inventory as needed. Alternatively, if the payment method cannot be validated, the user will be notified via email and the order will not be placed. 
 ### 3.7.3 Functional Requirements 
 - 3.7.3.1 User will be able to access checkout menu through a button. 
@@ -120,18 +120,18 @@ While viewing the cart, user will select the “Check Out” option. The system 
 ## 3.8 Return Items
 ### 3.8.1	Description  
 Users should be able to return items back to the seller that they previously purchased. Once the item is returned, the user will receive payment via store credit. 
-### 3.8.2	Stimulus/Response Sequences 
+### 3.8.2	Stimulus
 The user will submit a return request, and the request will be reviewed and accepted or denied. Once the request is accepted and the seller confirms the item has been returned, the user will get their money back via store credit. 
 ### 3.8.3	Functional Requirements 
 - 3.8.3.1 User should be able to submit a return request. 
 - 3.8.3.2 Seller should be able to confirm receipt of the return. 
 - 3.8.3.3 User should be refunded  via store credit. 
-# 4. Other Nonfuntional Requirements
-## 4.1 Perfromance Requirements
+# 4. Other Nonfunctional Requirements
+## 4.1 Performance Requirements
 Bookaholics can be accessed through a web server. Therefore, the timing of website will rely on the stability and connection of the user’s internet, and it will also be based on the capabilities of the hardware that the user is using.
 ## 4.2 Safety Requirements
 Bookaholics will have password requirements when the user sets up their account to aid in preventing the user’s information from being stolen. It will require the user to create a password that is at least 8 characters long and contains an uppercase letter, a lowercase letter, and a special character.
-## 4.3 Secruity Requirements
+## 4.3 Security Requirements
 To ensure the security of the user’s information:
 - The user's password will not be displayed. If the user cannot remember their password, there will be a reset password option.
 - The user’s credit card number will not be displayed after adding the payment method. After the user sets a card as a payment method, the website will only display the last 4 digits of the card number, so the user can identify that it is the payment method they will be using to pay.
