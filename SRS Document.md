@@ -1,3 +1,10 @@
+# Software Requirements Specification
+### for
+# Bookaholics
+### Version 1.0 approved
+### Prepared by Justin Whittington, Landyn Sullivan, Marquasia Smith, Mykenzie Strickland, Kenneth Mack
+### Department of Computer Science, Mississippi State University
+### January 26, 2024
 # 1. Introduction
 ## 1.1 Purpose
 This document, version 1.0, serves as a comprehensive outline of the software requirements for the online bookstore, "Bookaholics." It provides a detailed product description, as well as a framework to be utilized by the development team. This is accomplished by covering the entire Bookaholics system, including user interactions, interface functionalities, information storage, database management, and security. In doing so, the document should act as the foundation and guide necessary for fulfilling the intended expectations of the final product.
