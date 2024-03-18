@@ -15,6 +15,47 @@
     <title>Document</title>
 </head>
 <body class="bg-dark">
+
+  <header class="p-3 text-bg-dark bg-black"> <!-- this is the hidden code for the navigation bar-->
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"></svg>
+            <!--I wrote the following "span" to be better styled for us since we dont have a technical "logo"
+            I think it looks fine but it can definently be altered to whatever we want.
+          
+            This is also an example of how we could style different elements inside of our website without using
+            Bootstrap presets.-->
+            <span 
+            style="font-size:25px;
+            text-align:center; 
+            line-height:1.5em;
+            font-family:Playfair Display, serif;
+            text-transform:uppercase;letter-spacing: 2px;
+            color:#e7c159;">
+            BookAholics
+          </span>
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="userPage.html" class="nav-link active px-2 text-secondary">Home</a></li>
+          <li><a href="about.html" class="nav-link px-2 text-secondary">About</a></li>
+        </ul>
+
+        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          <input type="search" class="form-control form-control-dark text-bg-dark text-warning" placeholder="Search..." aria-label="Search">
+        </form>
+
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2"
+          onclick="location.href = 'logIn.html'">Login</button>
+          <button type="button" class="btn btn-warning"
+          onclick="location.href = 'signUp.html'">Sign-up</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
     
     <form>
         <div class="container my-5">
