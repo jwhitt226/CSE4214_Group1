@@ -59,6 +59,8 @@
           </div>
         </div>
       </header>
+
+
     
     <form>
         <div class="container my-5">
@@ -70,11 +72,6 @@
         text-transform:uppercase;
         letter-spacing: 2px;
         color:#e7c159;">Edit Information</h1>
-        <h2 class="h3 mb-3 fw-normal" 
-        style="
-        text-align:center; 
-        line-height:1.5em;
-        color:#fff;"></h2>
     
         <form>
             <div class="form-floating">
@@ -123,6 +120,34 @@
             </div><br>
             <button type="submit" class="btn btn-warning" onclick="document.location='editAddress.html'">Change Address</button>
         </form><br><br>
+
+        <h2 class="h3 mb-3 fw-normal" 
+        style="
+        text-align:center; 
+        line-height:1.5em;
+        font-family:Playfair Display, serif;
+        text-transform:uppercase;
+        letter-spacing: 2px;
+        color:#e7c159;">Return Request</h2>
+
+        <h3 class="h3 mb-3 fw-normal" 
+        style="
+        text-align:center; 
+        line-height:1.5em;
+        font-family:Playfair Display, serif;
+        font-size:large;
+        text-transform:uppercase;
+        letter-spacing: 2px;
+        color:#e7c159;">Enter the ISBN of the book you would like to return:</h3>
+
+        <form>
+          <div class="form-floating">
+              <input type="text" class="form-control" id="floatingInput">
+              <label for="floatingPassword">ISBN</label>
+            </div> <br>
+          <button type="submit" class="btn btn-warning">Request Book Return</button>
+        </form><br><br>
+ 
         <button type="button" class="btn btn-warning" onclick="document.location='userPage.html'">Back</button>
       </form>
     </div>
