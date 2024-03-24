@@ -38,7 +38,7 @@
             </a>
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="seller.html" class="nav-link active px-2 text-secondary">Home</a></li>
+              <li><a href="adminPage.html" class="nav-link active px-2 text-secondary">Home</a></li>
               <li><a href="#" class="nav-link px-2 text-secondary">About</a></li>
             </ul>
     
@@ -47,13 +47,15 @@
             </form>
     
             <div class="text-end">
-              <button type="button" class="btn btn-outline-light" onclick="document.location='editSeller.html'">account name</button>
+              <button type="button" class="btn btn-outline-light" onclick="document.location='editAdmin.html'">account name</button>
               <button type="button" class="btn btn-warning">Logout</button>
-              <button type="button" class="btn btn-warning" onclick="document.location='addListing.html'">Add Listing</button>
+            </button>
             </div>
           </div>
         </div>
       </header>
+
+
     
     <form>
         <div class="container my-5">
@@ -64,42 +66,37 @@
         font-family:Playfair Display, serif;
         text-transform:uppercase;
         letter-spacing: 2px;
-        color:#e7c159;">Enter Listing Information</h1>
-        <h2 class="h3 mb-3 fw-normal" 
-        style="
-        text-align:center; 
-        line-height:1.5em;
-        color:#fff;"></h2>
+        color:#e7c159;">Edit Information</h1>
     
-        <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput">
-          <label for="floatingInput">ISBN</label>
-        </div> <br></br>
-        <div class="form-floating">
-          <input type="text" class="form-control" id="floatingInput">
-          <label for="floatingInput">Title</label>
-        </div> <br></br>
-        <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput">
-            <label for="floatingInput">Author</label>
-        </div> <br></br>
-        <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput">
-            <label for="floatinginput">Price</label>
-        </div> <br></br>
-        <div class="dropdown">
-            <!--input type="genre" class="form-control" id="floatingInput"-->
-            <button for="floatingInput" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Genre
-            </button> 
-            <ul class="dropdown-menu">
-                <li><button class="dropdown-item">Fiction</button></li>
-                <li><button class="dropdown-item">Non-Fiction</button></li>
-            </ul>
-        </div><br><br>
-        <button class="btn btn-primary py-2 btn-warning" type="submit">Add Listing</button>
-        <br><br>
-        <button class="btn btn-outline-light btn-lg px-4 rounded-pill" type="button" onclick="document.location = 'seller.html'">Back to listings page</button>
+        <form>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput">
+                <label for="floatingInput">Email address</label>
+              </div><br>
+            <button type="text" class="btn btn-warning">Change Email</button>
+        </form><br><br>
+
+        <form>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput">
+                <label for="floatingPassword">Password</label>
+              </div> <br>
+            <button type="submit" class="btn btn-warning">Change Password</button>
+        </form><br><br>
+
+        <form>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput">
+                <label for="floatingInput">First Name</label>
+            </div><br>
+            <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput">
+                <label for="floatingInput">Last Name</label>
+            </div><br>
+            <button type="submit" class="btn btn-warning">Change Name</button>
+        </form><br><br>
+ 
+        <button type="button" class="btn btn-warning" onclick="document.location='adminPage.html'">Back</button>
       </form>
     </div>
 </div>
