@@ -6,7 +6,7 @@ from django.db.models.functions import Lower
 #Models
 #class modelName(models.Model):
     #Fields
-    
+
 
     def __str__(self):
 #        return self.primaryKey
@@ -141,7 +141,7 @@ class Inventory(models.Model):
     class Meta:
         ordering = ['isbn']
 
-class shoppingCart(models.Model):
+class ShoppingCart(models.Model):
     #Fields
     userID = models.ForeignKey('User', on_delete=models.CASCADE)
     isbn = models.ForeignKey('Inventory', on_delete=models.CASCADE, related_name = 'isbn_cart')
