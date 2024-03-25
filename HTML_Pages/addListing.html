@@ -70,7 +70,10 @@
         text-align:center; 
         line-height:1.5em;
         color:#fff;"></h2>
-    
+
+        <label for="file-input" style="color: #e7c159; font-size: xx-large;">Select an image:</label>
+        <input type="file" id="file-input" accept="image">
+        <br><br>
         <div class="form-floating">
           <input type="text" class="form-control" id="floatingInput">
           <label for="floatingInput">ISBN</label>
@@ -89,9 +92,9 @@
         </div> <br></br>
         <div class = "form-floationg">
           <label for ="genre" style="color:#e7c159; font-size: xx-large;">Genre:</label>
-          <select id="genre" name="genre"size ="4">
-            <option value="fiction">fiction</option>
-            <option value="non-ficiton">non-fiction</option>
+          <select id="genre" name="genre"size ="1">
+            <option value="fiction">Fiction</option>
+            <option value="non-ficiton">Non-Fiction</option>
           </select>
         </div><br><br>
         <button class="btn btn-primary py-2 btn-warning" type="submit">Add Listing</button>
