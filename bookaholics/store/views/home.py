@@ -41,17 +41,11 @@ def store(request):
     cart = request.session.get('cart')
     if not cart:
         request.session['cart'] = {}
-    products = None
-    categories = Category.get_all_categories()
-    categoryID = request.GET.get('category')
-    if categoryID:
-        products = Products.get_all_products_by_categoryid(categoryID)
-    else:
-        products = Products.get_all_products();
+    inventory = None
+    products = Inventory.get_all_products();
 
     data = {}
-    data['products'] = products
-    data['categories'] = categories
+    data['inventory'] = inventory
 
     print('you are : ', request.session.get('email'))
     return render(request, 'index.html', data)
