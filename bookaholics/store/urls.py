@@ -3,6 +3,11 @@ from django.urls import path
 from .views.welcome import welcome
 from .views.listing import browse
 from .views.listing import viewListing
+from .views.cart import Cart  # Import the Cart view
+from .views.checkout import Checkout
+from .views.signup import signUp
+
+
 #from .views.home import Index , store
 #from .views.signup import Signup
 #from .views.login import Login, logout
@@ -17,6 +22,9 @@ urlpatterns = [
     #have to adjust this to "viewListing/<int:pk>"
     path('browse/', browse, name='browse'),
     path('viewListing/<int:pk>', viewListing, name='viewListing'),
+    path('cart/', Cart.as_view(), name='cart'),
+    path('checkout/', Checkout.as_view() , name='checkout'),
+    path('signUp/', signUp.as_view(), name='signUp')
 #    path('', Index.as_view(), name='homepage'),
 #    path('store', store , name='store'),
 

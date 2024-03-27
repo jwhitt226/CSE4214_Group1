@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from bookaholics.store.models import User, Inventory, ShoppingCart
+from store.models import User, Inventory, ShoppingCart
 from django.views import View
 
 class Checkout(View):
@@ -8,11 +8,11 @@ class Checkout(View):
         phone = request.POST.get('phone')
 
         user_id = request.session.get('user_id')
-        user = user.objects.get(id = user_id)
+        user = user.objects.get(isbn = user_id)
 
         cart = request.session.get('cart')
         stock_id = list(cart.keys())
-        stock = Inventory.objects.filter(id__in=stock_id)
+        stock = Inventory.objects.filter(isbn__in=stock_id)
 
         for stock in stock:
             quantity = cart[str(stock_id)]

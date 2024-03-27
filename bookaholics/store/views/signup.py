@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from bookaholics.store.models import Admin, Seller, User
+from store.models import Admin, Seller, User
 from django.contrib.auth import authenticate, login
 
 class signUp(View):
