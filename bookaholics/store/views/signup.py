@@ -54,6 +54,14 @@ class signUp(View):
                                                state = state,
                                                city = city,
                                                zip_code = zip_code)
-            return redirect('login.html')
-        
-        return render(request,'signup.html',{'Failed to create user'})
+                
+                user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('welcome')  # Redirect to the home page
+            else:
+                return render(request, 'signUp.html', {'error': 'Failed to authenticate user'})
+
+        return render(request, 'signUp.html', {'error': 'Failed to create user'})
+    
+    
