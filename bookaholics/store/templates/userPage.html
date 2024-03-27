@@ -64,18 +64,18 @@ I edited it a little bit to fit our needs and we could possible use it for our w
       </header>
       <br><br>
 
-
+      {% for book in books %}
       <div class="container my-4">
         <div class="row">
             <!--This is the listing example (image sizes must stay 600x1000 to stay consistent)-->
             <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center mb-3">
                 <div class="card" style="width: 18rem;">
-                    <img src="https://prodimage.images-bn.com/lf?set=key%5Bresolve.pixelRatio%5D,value%5B1%5D&set=key%5Bresolve.width%5D,value%5B600%5D&set=key%5Bresolve.height%5D,value%5B10000%5D&set=key%5Bresolve.imageFit%5D,value%5Bcontainerwidth%5D&set=key%5Bresolve.allowImageUpscaling%5D,value%5B0%5D&set=key%5Bresolve.format%5D,value%5Bwebp%5D&source=url%5Bhttps://prodimage.images-bn.com/pimages/9781569319017_p0_v1_s600x595.jpg%5D&scale=options%5Blimit%5D,size%5B600x10000%5D&sink=format%5Bwebp%5D" class="card-img-top" alt="...">
+                    <img src="{{ book.image.url }}" class="card-img-top" alt="...">
                     <div class="card-body bg-black text-center">
-                        <h5 class="card-title fw-bold text-white">One Piece, Vol 1: Romance Dawn</h5> <!--Book Title-->
-                        <p class="card-text text-white">By: Eiichiro Oda</p> <!--Author Name-->
-                        <p class="card-text text-white">$</p> <!--Price-->
-                        <a href="veiw_listing.html" class="btn btn-warning">View Listing</a>
+                        <h5 class="card-title fw-bold text-white">{{ book.title }}</h5> <!--Book Title-->
+                        <p class="card-text text-white">{{ book.author }}</p> <!--Author Name-->
+                        <p class="card-text text-white">${{ book.price }}</p> <!--Price-->
+                        <a href="{% url 'viewListing' book.isbn %}" class="btn btn-warning">View Listing</a>
                         <button type="button" class="btn btn-warning ms-2"
                         onclick="">
                         <svg width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
@@ -85,9 +85,9 @@ I edited it a little bit to fit our needs and we could possible use it for our w
                     </div>
                 </div>
             </div>
-
         </div>
       </div>
+      {% endfor %}
 
 
 

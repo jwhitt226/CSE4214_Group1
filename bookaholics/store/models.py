@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 from django.urls import reverse
+import datetime
 
 """
 #Models
@@ -29,7 +30,7 @@ class Admin(models.Model):
     lname = models.CharField(max_length = 20, help_text = 'Enter Last Name')
     email = models.EmailField(max_length = 40, help_text = 'Enter Email Address')
 
-    def __str__(self):
+    def __int__(self):
         return self.adminID
     
     def get_absolute_url(self):
@@ -48,7 +49,7 @@ class Seller(models.Model):
     address = models.CharField(max_length = 50, help_text = 'Enter Address')
     status = models.CharField(max_length = 10)
     
-    def __str__(self):
+    def __int__(self):
         return self.sellerID
     
     def get_absolute_url(self):
@@ -93,7 +94,7 @@ class SellerReq(models.Model):
     status = models.CharField(max_length = 15)
     dateApplied = models.DateField(auto_now_add = True)
     
-    def __str__(self):
+    def __int__(self):
         return self.requestID
     
     def get_absolute_url(self):
@@ -111,7 +112,7 @@ class OrderHist(models.Model):
     cost = models.DecimalField(max_digits = 10, decimal_places = 2)
     numItems = models.IntegerField()
     
-    def __str__(self):
+    def __int__(self):
         return self.orderID
     
     def get_absolute_url(self):
@@ -131,8 +132,9 @@ class Inventory(models.Model):
     genre = models.CharField(max_length = 20)
     price = models.DecimalField(max_digits = 10, decimal_places = 2)
     stock = models.IntegerField()
+    image = models.ImageField(upload_to = 'inventory_images/', default = 'inventory_images/default.jpg')
     
-    def __str__(self):
+    def __int__(self):
         return self.isbn
     
     def get_absolute_url(self):
@@ -167,7 +169,7 @@ class PrevSold(models.Model):
     quantity = models.IntegerField()
     price = models.ForeignKey('Inventory', on_delete=models.RESTRICT, related_name = 'price_sold')
     
-    def __str__(self):
+    def __int__(self):
         return self.orderID
     
     def get_absolute_url(self):
