@@ -1,39 +1,67 @@
-from django.shortcuts import render , redirect , HttpResponseRedirect
-from django.contrib.auth.hashers import  check_password
+# from django.shortcuts import render , redirect , HttpResponseRedirect
+# from django.contrib.auth.hashers import  check_password
+# from store.models import User
+# from django.views import View
+
+
+# class Login(View):
+#     return_url = None
+
+#     def get(self, request):
+#         Login.return_url = request.GET.get ('return_url')
+#         return render (request, 'login.html')
+
+#     def post(self, request):
+#         email = request.POST.get ('email')
+#         password = request.POST.get ('password')
+#         user = User.get_user_by_email (email)
+#         error_message = None
+#         if user:
+#             flag = check_password (password, user.password)
+#             if flag:
+#                 request.session['user'] = user.id
+
+#                 if Login.return_url:
+#                     return HttpResponseRedirect (Login.return_url)
+#                 else:
+#                     Login.return_url = None
+#                     return redirect ('homepage')
+#             else:
+#                 error_message = 'Invalid email address or password. Try again. '
+#         else:
+#             error_message = 'Invalid email address or password. Try again.'
+
+#         print (email, password)
+#         return render (request, 'login.html', {'error': error_message})
+
+# def logout(request):
+#     request.session.clear()
+#     return redirect('login')
+
+from django.shortcuts import render, redirect
 from store.models import User
-from django.views import View
+from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
+def login_user(request):
 
-class Login(View):
-    return_url = None
-
-    def get(self, request):
-        Login.return_url = request.GET.get ('return_url')
-        return render (request, 'login.html')
-
-    def post(self, request):
-        email = request.POST.get ('email')
-        password = request.POST.get ('password')
-        user = User.get_user_by_email (email)
-        error_message = None
-        if user:
-            flag = check_password (password, user.password)
-            if flag:
-                request.session['user'] = user.id
-
-                if Login.return_url:
-                    return HttpResponseRedirect (Login.return_url)
-                else:
-                    Login.return_url = None
-                    return redirect ('homepage')
-            else:
-                error_message = 'Invalid email address or password. Try again. '
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+#            messages.success(request, "Successfully logged in")
+            return redirect('browse')
         else:
-            error_message = 'Invalid email address or password. Try again.'
+#            messages.error(request, "Invalid credentials")
+            return redirect('login')
 
-        print (email, password)
-        return render (request, 'login.html', {'error': error_message})
+    else:
+        return render(request, 'login.html', {})
+    
 
-def logout(request):
-    request.session.clear()
-    return redirect('login')
+def logout_user(request):
+    logout(request)
+    messages.success(request, "Successfully logged out")
+    return redirect('welcome')

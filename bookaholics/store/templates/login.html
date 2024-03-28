@@ -56,7 +56,8 @@
   </header>
 
     
-    <form>
+    <form method = "POST" action="{% url 'login' %}">
+      {% csrf_token %}
         <div class="container my-5">
             <div class="p-5 text-center bg-dark bg-opacity-75 rounded-3">
         <h1 style="
@@ -73,11 +74,11 @@
         color:#fff;">Please Log In</h2>
     
         <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-          <label for="floatingInput">Email address</label>
+          <input type="text" class="form-control" name="username" placeholder="Username">
+          <label for="floatingInput">Username</label>
         </div> <br></br>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <input type="password" class="form-control" name="password" placeholder="Password">
           <label for="floatingPassword">Password</label>
         </div> <br></br>
         <button class="btn btn-primary py-2 btn-warning" type="submit">Sign in</button>

@@ -6,6 +6,7 @@ from .views.listing import viewListing
 from .views.cart import Cart  # Import the Cart view
 from .views.checkout import Checkout
 from .views.signup import signUp
+from .views.login import login_user, logout_user
 
 
 #from .views.home import Index , store
@@ -24,7 +25,9 @@ urlpatterns = [
     path('viewListing/<int:pk>', viewListing, name='viewListing'),
     path('cart/', Cart.as_view(), name='cart'),
     path('checkout/', Checkout.as_view() , name='checkout'),
-    path('signUp/', signUp.as_view(), name='signUp')
+    path('signUp/', signUp.as_view(), name='signUp'),
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
 #    path('', Index.as_view(), name='homepage'),
 #    path('store', store , name='store'),
 
