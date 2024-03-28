@@ -69,7 +69,7 @@ I edited it a little bit to fit our needs and we could possible use it for our w
             <!--This is the listing example (image sizes must stay 600x1000 to stay consistent)-->
             {% for book in books %}
             <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center mb-3">
-                <div class="card" style="width: 18rem;">
+                <div class="card h-100" style="width: 18rem;">
                     <img src="{{ book.image.url }}" class="card-img-top" alt="...">
                     <div class="card-body bg-black text-center">
                         <h5 class="card-title fw-bold text-white">{{ book.title }}</h5> <!--Book Title-->
