@@ -74,10 +74,9 @@
   <form method="POST" action="{% url 'signUp' %}"> {% csrf_token %}
       
     <div class="p-5 text-center bg-dark bg-opacity-75 rounded-3">
-      
-      
-      {{ form.as_p }}
-      
+      <div class="form-floating my-3">
+        {{ form.as_p }}
+      </div>
     
     
       <!--
