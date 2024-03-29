@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('store.urls')),
     path('', RedirectView.as_view(url='', permanent=True)),
+    path('cart/', include('cart.urls')),
 ]
 
 from django.conf import settings
