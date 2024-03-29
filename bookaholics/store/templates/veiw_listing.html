@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<body class="bg-dark">
+    <header class="p-3 text-bg-dark bg-black">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"></svg>
+                <!--I wrote the following "span" to be better styled for us since we dont have a technical "logo"
+                I think it looks fine but it can definently be altered to whatever we want.
+              
+                This is also an example of how we could style different elements inside of our website without using
+                Bootstrap presets.-->
+                <span 
+                style="font-size:25px;
+                text-align:center; 
+                line-height:1.5em;
+                font-family:Playfair Display, serif;
+                text-transform:uppercase;letter-spacing: 2px;
+                color:#e7c159;">
+                BookAholics
+              </span>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="../seller" class="nav-link active px-2 text-secondary">Home</a></li>
+            </ul>
+    
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+              <input type="search" class="form-control form-control-dark text-bg-dark text-warning" placeholder="Search..." aria-label="Search">
+            </form>
+    
+            <div class="text-end">
+                <button type="button" class="btn btn-outline-light me-2"
+                onclick="location.href = 'logIn'">Login</button>
+                <button type="button" class="btn btn-warning"
+                onclick="location.href = 'signUp'">Sign-up</button>
+            </div>
+                    <a href="{% url 'cart' %}" class="btn btn-warning ms-2"><svg width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
+                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"></path>
+                    </svg></a>
+            </div>
+        </div>
+    </header>
+    <div class="container h-100 py-5">
+        <div class="row ">
+            <div class="col text-end">
+                <img src="{{ book.image.url }}"
+                class="img-fluid rounded-3" alt="Book">
+            </div>
+                <div class="col text-start">
+                    <div class="text-white">
+                        <h2 class="mb-2">{{ book.title }}</h2>
+                        <p class="mb-0">{{ book.author }}</p>
+                        <p class="row">
+                            <h4 class="col mt-5">Listing Price: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Standard Shipping 
+                            <br> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Rates Apply</h4>
+                        </p>
+                        <h5 class="mb-3"> ${{ book.price }}</h5>
+                        <p>
+                            <a href="/browse" class="btn btn-warning me-5">Back to Listings</a>
+                            <button type="button" class="btn btn-warning ms-5"
+                            value="{{ book.isbn }}" id="addCart"> Add to Cart
+                            <svg width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
+                                <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0"></path>
+                            </svg>
+                            </button>
+                        </p>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+
+    <script>
+        $(document).on('click', '#addCart', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'cartAdd' %}",
+                data: {
+                    books_ISBN: $('#addCart').val(),
+                    csrfmiddlewaretoken: '{{csrf_token }}',
+                    action: 'post'
+                },
+
+                success: function(json) {
+                    console.log(json)
+                },
+
+                error: function(xhr, errmsg, err){
+
+                }
+
+            });
+        })
+
+
+    </script>
+    {% endblock %}
