@@ -27,3 +27,11 @@ class Cart():
         books = Inventory.objects.filter(isbn__in=book_isbns)
 
         return books
+    
+    def delete(self, book):
+        book_isbn = str(book)
+
+        #if book_ISBN in self.cart:
+        del self.cart[book_isbn]
+        
+        self.session.modified = True
