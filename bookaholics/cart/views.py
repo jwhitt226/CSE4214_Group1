@@ -30,7 +30,7 @@ def cartDelete(request):
 
         cart.delete(book=book)
 
-        response = JsonResponse({'Product Name: ': book.title})
+        response = JsonResponse({'Product Name: ': book})
         return response
 
 def cartUpdate(request):

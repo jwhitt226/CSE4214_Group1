@@ -29,9 +29,9 @@ class Cart():
         return books
     
     def delete(self, book):
-        book_isbn = str(book)
+        book_ISBN = str(book)
 
         #if book_ISBN in self.cart:
-        del self.cart[book_isbn]
+        del self.cart[book_ISBN]
         
         self.session.modified = True
