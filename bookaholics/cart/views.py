@@ -23,7 +23,15 @@ def cartAdd(request):
         return response
 
 def cartDelete(request):
-    pass
+    cart = Cart(request)
+    if request.POST.get('action') == 'post' :
+
+        book = int(request.POST.get('books_ISBN'))
+
+        cart.delete(book=book)
+
+        response = JsonResponse({'Product Name: ': book})
+        return response
 
 def cartUpdate(request):
     pass
