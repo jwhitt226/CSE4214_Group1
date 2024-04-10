@@ -27,9 +27,14 @@ def compareAdd(request):
         return response
 
 def compareDelete(request):
-    pass
+        compare = Compare(request)
+        if request.POST.get('action') == 'post' :
 
-def compareUpdate(request):
-    pass
+            book = int(request.POST.get('books_ISBN'))
+
+            compare.delete(book=book)
+
+            response = JsonResponse({'Product Name: ': book})
+            return response
 
 # Create your views here.

@@ -27,3 +27,11 @@ class Compare():
         books = Inventory.objects.filter(isbn__in=book_isbns)
 
         return books
+    
+    def delete(self, book):
+        book_ISBN = str(book)
+
+        #if book_ISBN in self.comaper:
+        del self.compare[book_ISBN]
+        
+        self.session.modified = True

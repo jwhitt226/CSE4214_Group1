@@ -5,5 +5,4 @@ urlpatterns = [
     path('', views.compare, name="compare"),
     path('add/', views.compareAdd, name="compareAdd"),
     path('delete/', views.compareDelete, name="compareDelete"),
-    path('update/', views.compareUpdate, name="compareUpdate"),
 ]
