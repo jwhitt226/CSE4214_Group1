@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('store.urls')),
     path('', RedirectView.as_view(url='', permanent=True)),
     path('cart/', include('cart.urls')),
+    path('compare/', include('compare.urls')),
 ]
 
 from django.conf import settings
