@@ -1,5 +1,6 @@
 from store.models import Inventory
 from decimal import *
+import copy
 
 class Cart():
     def __init__(self, request):
@@ -69,5 +70,21 @@ class Cart():
                 if book.isbn == key:
                     ttl = ttl + ( Decimal(float(value)) * book.price)
         return ttl
+    
+    def placeOrder(self):
+        book_isbns = self.cart.keys()
+
+        books = Inventory.objects.filter(isbn__in=book_isbns)
+
+        quantities = self.cart
+
+        for key, value in list(quantities.items()):
+            for book in books:
+                if book.isbn == key:
+                   book.stock = book.stock - value
+                   book.save()
+            del self.cart[key]
+        
+        self.session.modified = True
 
 

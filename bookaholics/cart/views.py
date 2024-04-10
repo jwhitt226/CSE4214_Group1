@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .cart import Cart
 from store.models import Inventory
 from django.http import JsonResponse
@@ -45,3 +45,15 @@ def cartUpdate(request):
 
         response = JsonResponse({'qty':book_cnt})
         return response
+    
+def order(request):
+    cart = Cart(request)
+    cart_books = cart.get_cart
+    quantities = cart.get_cnt
+    totals = cart.total()
+    return render(request, "order.html", {"cart_books":cart_books, "quantities": quantities, "totals": totals})
+
+def orderPlace(request):
+    order = Cart(request)
+    order.placeOrder()
+    return redirect(cart)
