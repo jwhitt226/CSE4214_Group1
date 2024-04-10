@@ -25,7 +25,7 @@ I edited it a little bit to fit our needs and we could possible use it for our w
             </a>
     
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="." class="nav-link active px-2 text-secondary">Home</a></li>
+              <li><a href="{% url 'browse' %}" class="nav-link active px-2 text-secondary">Home</a></li>
               <li><a href="{% url 'compare' %}" class="nav-link active px-2 text-secondary">Compare</a></li>
             </ul>
     
@@ -50,9 +50,10 @@ I edited it a little bit to fit our needs and we could possible use it for our w
 
       
       <div class="container my-4">
-        <div class="row">
+        <div class="row text-white">
             <!--This is the listing example (image sizes must stay 600x1000 to stay consistent)-->
-            {% for book in books %}
+            {% if compare_books %}
+            {% for book in compare_books %}
             <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center mb-3">
                 <div class="card h-100" style="width: 18rem;">
                     <img src="{{ book.image.url }}" class="card-img-top" alt="...">
@@ -71,6 +72,9 @@ I edited it a little bit to fit our needs and we could possible use it for our w
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+            <p class="text-white text-lg" >There's Nothing to compare. Once you add items to compare they will apear here.</p>
+            {% endif %}
         </div>
       </div>
       
