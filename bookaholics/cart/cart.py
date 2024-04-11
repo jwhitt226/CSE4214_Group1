@@ -71,14 +71,9 @@ class Cart():
         return ttl
     
     def placeOrder(self):
-        book_isbns = self.cart.keys()
-
-        books = Inventory.objects.filter(isbn__in=book_isbns)
-
         quantities = self.cart
-        
-        
-        for key, value in list(sorted(quantities.items())):
+    
+        for key, value in list(quantities.items()):
             Inventory.objects.filter(isbn=key).update(stock=(Inventory.objects.get(isbn=key).stock - int(value)))
             del self.cart[key]
         
