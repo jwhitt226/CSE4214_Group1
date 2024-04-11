@@ -60,6 +60,7 @@ I edited it a little bit to fit our needs and we could possible use it for our w
                         <h5 class="card-title fw-bold text-white">{{ book.title }}</h5> <!--Book Title-->
                         <p class="card-text text-white">{{ book.author }}</p> <!--Author Name-->
                         <p class="card-text text-white">${{ book.price }}</p> <!--Price-->
+                        <p class="card-text text-white"># in stock: {{ book.stock }}</p> <!--Stock-->
                         <a href="{% url 'viewListing' book.isbn %}" class="btn btn-warning">View Listing</a>
                     </div>
                 </div>
