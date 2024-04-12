@@ -5,7 +5,7 @@ from django.db.models.functions import Lower
 from django.urls import reverse
 import datetime
 from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import BaseUserManager
@@ -28,143 +28,151 @@ from django.contrib.auth.models import BaseUserManager
 
 #Models
 ##Accounts
-class User(AbstractUser):
-    class Role(models.TextChoices):
-        ADMIN = "ADMIN", 'Admin'
-        CUSTOMER = "CUSTOMER", 'Customer'
-        SELLER = "SELLER", 'Seller'
 
-    base_role = Role.ADMIN
 
-    role = models.CharField(max_length = 50, choices = Role.choices, default = base_role)
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            self.role = self.base_role
-        return super().save(*args, **kwargs)
+class CustomUserManager(BaseUserManager):
+    def create_user(self, userID, email, password=None, **extra_fields):
+        if not userID:
+            raise ValueError('The User ID must be set')
+        if not email:
+            raise ValueError('The Email must be set')
 
-class CustomerManager(BaseUserManager):
-    def get_queryset(self, *args, **kwargs):
-        results = super().get_queryset(*args, **kwargs)
-        return results.filter(role = User.Role.CUSTOMER)
+        user = self.model(
+            userID = userID,
+            email = self.normalize_email(email),
+            **extra_fields
+        )
 
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, userID, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff = True')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser = True')
+        return self.create_user(userID, email, password, **extra_fields)
+    
+
+class User(AbstractBaseUser, PermissionsMixin):
+    class Types(models.TextChoices):
+        CUSTOMER = "CUSTOMER", "Customer"
+        SELLER = "SELLER", "Seller"
+        ADMIN = "ADMIN", "Admin"
+    
+    userID = models.CharField(max_length = 50, unique=True, default = 'userID')
+    email = models.EmailField(max_length = 50, unique=True)
+    type = models.CharField(max_length = 50, choices = Types.choices, default = Types.CUSTOMER)
+    is_staff = models.BooleanField(default = False)
+    is_active = models.BooleanField(default = True)
+    is_superuser = models.BooleanField(default = False)
+
+    USERNAME_FIELD = 'userID'
+    EMAIL_FIELD = 'email'
+
+    REQUIRED_FIELDS = [EMAIL_FIELD]
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.userID
+    
+#Think about the manager situations
+class CustomerMore(models.Model):
+    userID = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
+    fname = models.CharField(max_length = 20)
+    lname = models.CharField(max_length = 50)
+    address = models.CharField(max_length = 100)
+
+#Revise this
 class Customer(User):
+    base_type = User.Types.CUSTOMER
+
+    def more(self):
+        return self.customermore
     
-    base_role = User.Role.CUSTOMER
-
-    customer = CustomerManager()
-
     class Meta:
         proxy = True
 
-    def welcome(self):
-        return "Welcome, valued customer!"
 
-@receiver(post_save, sender=Customer)
-def create_customer_profile(sender, instance, created, **kwargs):
-    if created and instance.role == "CUSTOMER":
-        CustomerProfile.objects.create(user = instance)
+class SellerMore(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "PENDING", "Pending"
+        APPROVED = "APPROVED", "Approved"
+        DENIED = "DENIED", "Denied"
 
-class CustomerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
-    userID = models.IntegerField(null=True, blank=True)
+    userID = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
+    name = models.CharField(max_length = 50)
+    address = models.CharField(max_length = 100)
+    status = models.CharField(max_length = 20, choices = Status.choices, default = Status.PENDING)
 
-class SellerManager(BaseUserManager):
-    def get_queryset(self, *args, **kwargs):
-        results = super().get_queryset(*args, **kwargs)
-        return results.filter(role = User.Role.SELLER)
-
+#Revise this
 class Seller(User):
+    base_type = User.Types.SELLER
+
+    def more(self):
+        return self.sellermore
     
-    base_role = User.Role.SELLER
-
-    seller = SellerManager()
-
     class Meta:
         proxy = True
 
-    def welcome(self):
-        return "Welcome, valued seller!"
+
+# class User(AbstractUser):
     
-@receiver(post_save, sender=Seller)
-def create_seller_profile(sender, instance, created, **kwargs):
-    if created and instance.role == "SELLER":
-        SellerProfile.objects.create(user = instance)
+#     class Type(models.TextChoices):
+#         CUSTOMER = "CUSTOMER", "Customer"
+#         SELLER = "SELLER", "Seller"
 
-class SellerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
-    sellerID = models.IntegerField(null=True, blank=True)
+#     type = models.CharField(help_text= 'Type', max_length=50, choices=Type.choices, default=Type.CUSTOMER)
 
+#     name = models.CharField( help_text = 'Enter Name', max_length = 50, blank = True,)
 
-# class Admin(models.Model):
-#     #Fields
-#     adminID = models.IntegerField(primary_key = True)
-#     password = models.CharField(max_length = 20, help_text = 'Enter Password')
-#     fname = models.CharField(max_length = 20, help_text = 'Enter First Name')
-#     lname = models.CharField(max_length = 20, help_text = 'Enter Last Name')
-#     email = models.EmailField(max_length = 40, help_text = 'Enter Email Address')
-
-#     def __int__(self):
-#         return self.adminID
-    
 #     def get_absolute_url(self):
-#         return reverse('admin-detail-view', args = [str(self.id)])
-        
-#     #Metadata
-#     class Meta:
-#         ordering = ['adminID']
-        
-# class Seller(models.Model):
-#     #Fields
-#     sellerID = models.IntegerField(primary_key = True)
-#     password = models.CharField(max_length = 20, help_text = 'Enter Password')
-#     name = models.CharField(max_length = 20, help_text = 'Enter Name')
-#     email = models.EmailField(max_length = 40, help_text = 'Enter Email Address')
-#     address = models.CharField(max_length = 50, help_text = 'Enter Address')
-#     status = models.CharField(max_length = 10)
+#         return reverse("users:detail", kwargs={"username": self.username})
     
-#     def __int__(self):
-#         return self.sellerID
+# class CustomerManager(models.Manager):
+#     def get_queryset(self, *args, **kwargs):
+#         return super().get_queryset(*args, **kwargs).filter(type=User.Type.CUSTOMER)
     
-#     def get_absolute_url(self):
-#         return reverse('seller-detail-view', args = [str(self.id)])
-        
-#     #Metadata
+# class SellerManager(models.Manager):
+#     def get_queryset(self, *args, **kwargs):
+#         return super().get_queryset(*args, **kwargs).filter(type=User.Type.SELLER)
+
+# class Customer(User):
+#     objects = CustomerManager()
+
 #     class Meta:
-#         ordering = ['sellerID']
+#         proxy = True
 
-# class User(models.Model):
-#     #Fields
-#     userID = models.CharField(primary_key = True, max_length = 20, help_text = 'Enter Username')
-#     password = models.CharField(max_length = 20, help_text = 'Enter Password')
-#     fname = models.CharField(max_length = 20, help_text = 'Enter First Name')
-#     lname = models.CharField(max_length = 20, help_text = 'Enter Last Name')
-#     billAddr = models.CharField(max_length = 50, help_text = 'Enter Billing Address')
-#     email = models.EmailField(max_length = 40, help_text = 'Enter Email Address')
+#     def save(self, *args, **kwargs):
+#         if not self.pk:
+#             self.type = User.Type.CUSTOMER
+#         return super().save(*args, **kwargs)
 
-#     def __str__(self):
-#         return self.userID
-    
-#     def get_absolute_url(self):
-#         return reverse('user-detail-view', args = [str(self.id)])
+# class Seller(User):
+#     objects = SellerManager()
 
-#     #Metadata
 #     class Meta:
-#         ordering = ['userID']
-#         constraints = [
-#             UniqueConstraint(
-#                 Lower('userID'),
-#                 name = 'userID_case_insensitive_unique',
-#                 violation_error_message = "Username already exists"
-#             )
-#         ]
+#         proxy = True
+
+#     def save(self, *args, **kwargs):
+#         if not self.pk:
+#             self.type = User.Type.SELLER
+#         return super().save(*args, **kwargs)
+
 
 
 ##Account Management & Order History
 class SellerReq(models.Model):
     #Fields
     requestID = models.IntegerField(primary_key = True)
-    sellerID = models.ForeignKey('User', on_delete=models.RESTRICT)
+    sellerID = models.ForeignKey('Seller', on_delete=models.RESTRICT)
     status = models.CharField(max_length = 15)
     dateApplied = models.DateField(auto_now_add = True)
     

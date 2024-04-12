@@ -51,11 +51,17 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, "You have been logged in")
             #this needs to be cleaned up and given a message
             #messages.success(request, "Successfully logged in")
-            return redirect('browse')
+            role = user.type
+            if role == "CUSTOMER":
+                return redirect('browse')
+            elif role == "SELLER":
+                return redirect('welcome')
+            return redirect('login')
         else:
-#            messages.error(request, "Invalid credentials")
+            messages.success(request, "Invalid credentials")
             return redirect('login')
 
     else:
