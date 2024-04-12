@@ -29,8 +29,6 @@ from django.contrib.auth.models import BaseUserManager
 #Models
 ##Accounts
 
-
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, userID, email, password=None, **extra_fields):
         if not userID:
@@ -58,7 +56,6 @@ class CustomUserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser = True')
         return self.create_user(userID, email, password, **extra_fields)
-    
 
 class User(AbstractBaseUser, PermissionsMixin):
     class Types(models.TextChoices):
@@ -83,96 +80,41 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.userID
     
-#Think about the manager situations
-class CustomerMore(models.Model):
+class Customer(models.Model):
     userID = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
-    fname = models.CharField(max_length = 20)
-    lname = models.CharField(max_length = 50)
-    address = models.CharField(max_length = 100)
+    fname = models.CharField(max_length = 20, blank = True)
+    lname = models.CharField(max_length = 50, blank = True)
+    address = models.CharField(max_length = 100, blank = True)
+    credit = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0.00)
 
-#Revise this
-class Customer(User):
-    base_type = User.Types.CUSTOMER
-
-    def more(self):
-        return self.customermore
-    
-    class Meta:
-        proxy = True
-
-
-class SellerMore(models.Model):
+class Seller(models.Model):
     class Status(models.TextChoices):
         PENDING = "PENDING", "Pending"
         APPROVED = "APPROVED", "Approved"
         DENIED = "DENIED", "Denied"
 
-    userID = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
-    name = models.CharField(max_length = 50)
-    address = models.CharField(max_length = 100)
+    sellerID = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
+    name = models.CharField(max_length = 50, blank = True)
+    address = models.CharField(max_length = 100, blank = True)
     status = models.CharField(max_length = 20, choices = Status.choices, default = Status.PENDING)
+    credit = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0.00)
 
-#Revise this
-class Seller(User):
-    base_type = User.Types.SELLER
+def create_more(sender, instance, created, **kwargs):
+    if created:
+        if instance.type == User.Types.CUSTOMER:
+            customer = Customer(userID = instance)
+            customer.save()
+        elif instance.type == User.Types.SELLER:
+            seller = Seller(sellerID = instance)
+            seller.save()
 
-    def more(self):
-        return self.sellermore
-    
-    class Meta:
-        proxy = True
-
-
-# class User(AbstractUser):
-    
-#     class Type(models.TextChoices):
-#         CUSTOMER = "CUSTOMER", "Customer"
-#         SELLER = "SELLER", "Seller"
-
-#     type = models.CharField(help_text= 'Type', max_length=50, choices=Type.choices, default=Type.CUSTOMER)
-
-#     name = models.CharField( help_text = 'Enter Name', max_length = 50, blank = True,)
-
-#     def get_absolute_url(self):
-#         return reverse("users:detail", kwargs={"username": self.username})
-    
-# class CustomerManager(models.Manager):
-#     def get_queryset(self, *args, **kwargs):
-#         return super().get_queryset(*args, **kwargs).filter(type=User.Type.CUSTOMER)
-    
-# class SellerManager(models.Manager):
-#     def get_queryset(self, *args, **kwargs):
-#         return super().get_queryset(*args, **kwargs).filter(type=User.Type.SELLER)
-
-# class Customer(User):
-#     objects = CustomerManager()
-
-#     class Meta:
-#         proxy = True
-
-#     def save(self, *args, **kwargs):
-#         if not self.pk:
-#             self.type = User.Type.CUSTOMER
-#         return super().save(*args, **kwargs)
-
-# class Seller(User):
-#     objects = SellerManager()
-
-#     class Meta:
-#         proxy = True
-
-#     def save(self, *args, **kwargs):
-#         if not self.pk:
-#             self.type = User.Type.SELLER
-#         return super().save(*args, **kwargs)
-
-
+post_save.connect(create_more, sender = User)
 
 ##Account Management & Order History
 class SellerReq(models.Model):
     #Fields
     requestID = models.IntegerField(primary_key = True)
-    sellerID = models.ForeignKey('Seller', on_delete=models.RESTRICT)
+    sellerID = models.ForeignKey('User', on_delete=models.RESTRICT)
     status = models.CharField(max_length = 15)
     dateApplied = models.DateField(auto_now_add = True)
     
@@ -185,25 +127,6 @@ class SellerReq(models.Model):
     #Metadata
     class Meta:
         ordering = ['dateApplied']
-
-class OrderHist(models.Model):
-    #Fields
-    orderID = models.IntegerField(primary_key = True)
-    userID = models.ForeignKey('User', on_delete=models.RESTRICT)
-    dateOrdered = models.DateField(auto_now_add = True)
-    cost = models.DecimalField(max_digits = 10, decimal_places = 2)
-    numItems = models.IntegerField()
-    
-    def __int__(self):
-        return self.orderID
-    
-    def get_absolute_url(self):
-        return reverse('orderHist-detail-view', args = [str(self.id)])
-        
-    #Metadata
-    class Meta:
-        ordering = ['dateOrdered']
-
 
 ##Inventory Management
 class Inventory(models.Model):
@@ -243,13 +166,14 @@ class ShoppingCart(models.Model):
     class Meta:
         ordering = ['userID']
     
-class PrevSold(models.Model):
+class OrderHist(models.Model):
     #Fields
-    orderID = models.ForeignKey('OrderHist', on_delete=models.RESTRICT)
+    orderID = models.IntegerField(primary_key = True)
     userID = models.ForeignKey('User', on_delete=models.RESTRICT)
     isbn = models.ForeignKey('Inventory', on_delete=models.RESTRICT, related_name = 'isbn_sold')
     quantity = models.IntegerField()
     price = models.ForeignKey('Inventory', on_delete=models.RESTRICT, related_name = 'price_sold')
+    dateOrdered = models.DateField(auto_now_add = True)
     
     def __int__(self):
         return self.orderID
