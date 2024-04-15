@@ -69,5 +69,14 @@ class Cart():
                 if book.isbn == key:
                     ttl = ttl + ( Decimal(float(value)) * book.price)
         return ttl
+    
+    def placeOrder(self):
+        quantities = self.cart
+    
+        for key, value in list(quantities.items()):
+            Inventory.objects.filter(isbn=key).update(stock=(Inventory.objects.get(isbn=key).stock - int(value)))
+            del self.cart[key]
+        
+        self.session.modified = True
 
 

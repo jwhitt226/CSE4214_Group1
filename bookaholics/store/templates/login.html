@@ -55,7 +55,20 @@
     </div>
   </header>
 
-    
+    <div class="container">
+      {% if messages %}
+          {% for message in messages %}
+            <div class="alert 
+            alert-warning
+            alert-dismissable fade show"
+            role="alert">          
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+              </button>
+            </div>
+          {% endfor %}
+        {% endif %}
+    </div>
     <form method = "POST" action="{% url 'login' %}">
       {% csrf_token %}
         <div class="container my-5">
@@ -73,6 +86,8 @@
         line-height:1.5em;
         color:#fff;">Please Log In</h2>
     
+        
+
         <div class="form-floating">
           <input type="text" class="form-control" name="username" placeholder="Username">
           <label for="floatingInput">Username</label>
