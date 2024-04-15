@@ -162,7 +162,7 @@ class ShoppingCart(models.Model):
     userID = models.ForeignKey('User', on_delete=models.CASCADE)
     itemID = models.ForeignKey('Inventory', on_delete=models.CASCADE, related_name = 'itemID_cart')
     quantity = models.IntegerField()
-    price = models.ForeignKey('Inventory', on_delete=models.CASCADE, related_name = 'price_cart')
+    price = models.DecimalField(max_digits = 10, decimal_places = 2)
     
     def __str__(self):
         return self.userID
