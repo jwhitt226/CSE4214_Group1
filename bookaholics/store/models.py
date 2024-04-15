@@ -87,6 +87,9 @@ class Customer(models.Model):
     address = models.CharField(max_length = 100, blank = True)
     credit = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0.00)
 
+    # def __str__(self):
+    #     return self.userID
+
 class Seller(models.Model):
     class Status(models.TextChoices):
         PENDING = "PENDING", "Pending"
@@ -98,6 +101,9 @@ class Seller(models.Model):
     address = models.CharField(max_length = 100, blank = True)
     status = models.CharField(max_length = 20, choices = Status.choices, default = Status.PENDING)
     credit = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0.00)
+
+    # def __str__(self):
+    #     return self.userID
 
 def create_more(sender, instance, created, **kwargs):
     if created:

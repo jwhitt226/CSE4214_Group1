@@ -39,9 +39,12 @@
 #     return redirect('login')
 
 from django.shortcuts import render, redirect
-from store.models import User
+from store.models import User, Customer, Seller
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 from django.contrib import messages
+from store.forms import SignUpForm, CustomerSignUpForm
 
 def login_user(request):
 
@@ -72,3 +75,34 @@ def logout_user(request):
     logout(request)
     messages.success(request, "Successfully logged out")
     return redirect('welcome')
+
+def register_user(request):
+    form = SignUpForm()
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('userID')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, "Account created! Welcome!")
+            return redirect('browse')
+        else:
+            messages.success(request, "Invalid credentials")
+            return redirect('register')
+    else:
+        return render(request, 'signUp.html', {'form': form})
+    
+
+#Does not work yet, is currently circumvented. Form is not showing up
+#To add back, redirect to accountOptions after login
+def accountOptions(request):
+    if request.user.is_authenticated:
+        current_user = Customer.objects.get(userID=request.user)
+        form = CustomerSignUpForm(request.POST or None, instance=current_user)
+        if form.is_valid():
+            form.save()
+            message.success(request, "Customer Account Created! Welcome!")
+            return redirect('browse')
+    return render(request, 'customerAccount.html')
