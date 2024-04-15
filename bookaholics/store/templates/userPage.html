@@ -34,8 +34,8 @@ I edited it a little bit to fit our needs and we could possible use it for our w
             </form>
     
             <div class="text-end">
-              <button type="button" class="btn btn-outline-light" onclick="document.location='../editUser'">{{ user.email }}</button>
-              <button type="button" class="btn btn-warning">Logout</button>
+              <button type="button" class="btn btn-outline-light" onclick="">{{ user.email }}</button>
+              <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
               <button type="button" class="btn btn-warning ms-2"
               onclick="location.href = '../cart'">
               <svg width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">

@@ -29,13 +29,11 @@ I edited it a little bit to fit our needs and we could possible use it for our w
               <li><a href="{% url 'compare' %}" class="nav-link active px-2 text-secondary">Compare</a></li>
             </ul>
     
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-              <input type="search" name="q" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-            </form>
+            
     
             <div class="text-end">
-              <button type="button" class="btn btn-outline-light" onclick="document.location='../editUser'">account name</button>
-              <button type="button" class="btn btn-warning">Logout</button>
+              <button type="button" class="btn btn-outline-light" onclick="document.location='../editUser'">{{user.email}}</button>
+              <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
               <button type="button" class="btn btn-warning ms-2"
               onclick="location.href = '../cart'">
               <svg width="16" height="16" fill="currentColor" class="bi bi-cart4" viewBox="0 0 16 16">
