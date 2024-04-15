@@ -137,7 +137,9 @@ class SellerReq(models.Model):
 ##Inventory Management
 class Inventory(models.Model):
     #Fields
-    isbn = models.IntegerField(primary_key = True)
+    id = models.BigAutoField(primary_key = True)
+    sellerID = models.ForeignKey('User', on_delete=models.CASCADE)
+    isbn = models.IntegerField()
     title = models.CharField(max_length = 50)
     author = models.CharField(max_length = 50)
     genre = models.CharField(max_length = 20)
@@ -146,19 +148,19 @@ class Inventory(models.Model):
     image = models.ImageField(upload_to = 'inventory_images/', default = 'inventory_images/default.jpg')
     
     def __int__(self):
-        return self.isbn
+        return self.id
     
     def get_absolute_url(self):
         return reverse('inventory-detail-view', args = [str(self.id)])
     
     #Metadata
     class Meta:
-        ordering = ['isbn']
+        ordering = ['id']
 
 class ShoppingCart(models.Model):
     #Fields
     userID = models.ForeignKey('User', on_delete=models.CASCADE)
-    isbn = models.ForeignKey('Inventory', on_delete=models.CASCADE, related_name = 'isbn_cart')
+    itemID = models.ForeignKey('Inventory', on_delete=models.CASCADE, related_name = 'itemID_cart')
     quantity = models.IntegerField()
     price = models.ForeignKey('Inventory', on_delete=models.CASCADE, related_name = 'price_cart')
     
@@ -176,16 +178,16 @@ class OrderHist(models.Model):
     #Fields
     orderID = models.IntegerField(primary_key = True)
     userID = models.ForeignKey('User', on_delete=models.RESTRICT)
-    isbn = models.ForeignKey('Inventory', on_delete=models.RESTRICT, related_name = 'isbn_sold')
+    itemID = models.ForeignKey('Inventory', on_delete=models.RESTRICT, related_name = 'itemID_sold')
     quantity = models.IntegerField()
-    price = models.ForeignKey('Inventory', on_delete=models.RESTRICT, related_name = 'price_sold')
+    price = models.DecimalField(max_digits = 10, decimal_places = 2)
     dateOrdered = models.DateField(auto_now_add = True)
     
     def __int__(self):
         return self.orderID
     
     def get_absolute_url(self):
-        return reverse('prevsold-detail-view', args = [str(self.id)])
+        return reverse('prevsold-detail-view', args = [str(self.orderID)])
         
     #Metadata
     class Meta:
