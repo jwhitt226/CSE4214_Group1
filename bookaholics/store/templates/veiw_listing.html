@@ -69,7 +69,7 @@
                             </svg>
                             </button>
                             <button type="button" class="btn btn-warning ms-5"
-                            value="{{ book.isbn }}" id="addCompare">Compare</button>
+                            value="{{ book.id }}" id="addCompare">Compare</button>
                         </p>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                 type: 'POST',
                 url: "{% url 'compareAdd' %}",
                 data: {
-                    books_ISBN: $('#addCompare').val(),
+                    books_ID: $('#addCompare').val(),
                     csrfmiddlewaretoken: '{{csrf_token }}',
                     action: 'post'
                 },
