@@ -4,6 +4,7 @@ from .views.welcome import welcome
 from .views.listing import browse
 from .views.listing import viewListing
 from .views.login import login_user, logout_user, register_user, accountOptions
+from .views.addListing import processaddListing
 
 urlpatterns = [
     path('', welcome, name='welcome'),
@@ -14,4 +15,5 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('register/', register_user, name='register'),
     path('accountOptions/', accountOptions, name='accountOptions'),
+    path('addListing/', processaddListing, name='processaddListing'),
 ]
