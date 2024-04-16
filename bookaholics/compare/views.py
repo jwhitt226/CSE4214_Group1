@@ -20,7 +20,7 @@ def compareAdd(request):
     compare = Compare(request)
 
     if request.POST.get('action') == 'post':
-        book_ID = int(request.POST.get('books_ID'))
+        book_ID = int(request.POST.get('books_ISBN'))
 
         book = get_object_or_404(Inventory, id=book_ID)
 
