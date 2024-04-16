@@ -95,11 +95,13 @@ class Seller(models.Model):
         PENDING = "PENDING", "Pending"
         APPROVED = "APPROVED", "Approved"
         DENIED = "DENIED", "Denied"
+        ACTIVE = "ACTIVE"
+        INACTIVE = "INACTIVE"
 
     sellerID = models.OneToOneField(User, on_delete = models.CASCADE, primary_key = True)
     name = models.CharField(max_length = 50, blank = True)
     address = models.CharField(max_length = 100, blank = True)
-    status = models.CharField(max_length = 20, choices = Status.choices, default = Status.PENDING)
+    status = models.CharField(max_length = 20, choices = Status.choices, default = Status.INACTIVE)
     credit = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0.00)
 
     def __str__(self):

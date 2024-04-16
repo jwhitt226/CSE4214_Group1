@@ -62,7 +62,10 @@ def login_user(request):
                 return redirect('browse')
             elif role == "SELLER":
                 return redirect('sellerPage')
+            elif role == "ADMIN":
+                return redirect('adminPage')
             return redirect('login')
+        
         else:
             messages.success(request, "Invalid credentials")
             return redirect('login')

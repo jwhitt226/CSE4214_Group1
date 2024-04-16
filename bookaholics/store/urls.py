@@ -8,6 +8,7 @@ from .views.addListing import processaddListing
 from .views.sellerPage import sellerPage, viewSellerListing, delete
 from .views.sellerPage import sellerPage
 from .views.orderReturn import orderReturn, refund
+from .views.adminPage import adminPage, removeBook, deactivate, activate, deactivateUser
 
 urlpatterns = [
     path('', welcome, name='welcome'),
@@ -24,4 +25,9 @@ urlpatterns = [
     path('viewSellerListing/delete/<int:pk>', delete, name='delete'),
     path('orderReturn/', orderReturn, name='orderReturn'),
     path('refund/', refund, name='refund'),
+    path('adminPage/', adminPage, name='adminPage'),
+    path('removeBook/', removeBook, name='removeBook'),
+    path('deactivate/', deactivate, name='deactivate'),
+    path('activate/', activate, name='activate'),
+    path('deactivateUser/', deactivateUser, name='deactivateUser')
 ]

@@ -41,3 +41,5 @@ def refund(request):
 
         response = JsonResponse({'user': user})
         return response
+    
+    return redirect('orderReturn')
