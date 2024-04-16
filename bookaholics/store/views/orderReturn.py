@@ -38,8 +38,5 @@ def refund(request):
         user.save()
 
         order.delete()
-
-        response = JsonResponse({'user': user})
-        return response
     
     return redirect('orderReturn')
