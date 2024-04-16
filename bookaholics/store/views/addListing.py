@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from ..models import Inventory
 from ..models import Seller
+from django.contrib import messages
 
 def processaddListing(request):
     if request.user.is_authenticated:
@@ -17,8 +18,11 @@ def processaddListing(request):
  #       sellerID = current_user.sellerID_id
         sellerID = request.user
 
-        listing = Inventory(isbn=isbn, title=title, author=author, genre=genre, price=price, stock=stock, image=image, sellerID=sellerID)
-        listing.save()
+        if user.status == "ACTIVE":
+            listing = Inventory(isbn=isbn, title=title, author=author, genre=genre, price=price, stock=stock, image=image, sellerID=sellerID)
+            listing.save()
+        else:
+            messages.success(request, "You are not an active seller. Please contact an admin to activate your account.")
 
         return render(request, 'sellerPage.html', {'seller': user})
     else:

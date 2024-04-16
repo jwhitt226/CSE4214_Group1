@@ -106,7 +106,7 @@ def accountOptions(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Customer Account Created! Welcome!")
-                return redirect('login')
+                return redirect('browse')
             return render(request, 'customerAccount.html', {'form': form})
         elif request.user.type == "SELLER":
             current_user = Seller.objects.get(sellerID_id=request.user.id)
@@ -114,7 +114,7 @@ def accountOptions(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, "Seller Account Created! Welcome!")
-                return redirect('login')
+                return redirect('sellerPage')
             return render(request, 'customerAccount.html', {'form': form})
     else:
         messages.success(request, "You are not logged in")
