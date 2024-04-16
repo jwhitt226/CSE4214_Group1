@@ -12,26 +12,26 @@ class Compare():
         self.compare = compare
 
     def add(self, book):
-        book_isbn = str(book.isbn)
+        book_id = str(book.id)
 
-        if book_isbn in self.compare:
+        if book_id in self.compare:
             pass
         else:
-            self.compare[book_isbn] = {'price': str(book.price)}
+            self.compare[book_id] = {'price': str(book.price)}
 
         self.session.modified = True
 
     def get_compare(self):
-        book_isbns = self.compare.keys()
+        book_ids = self.compare.keys()
 
-        books = Inventory.objects.filter(isbn__in=book_isbns)
+        books = Inventory.objects.filter(id__in=book_ids)
 
         return books
     
     def delete(self, book):
-        book_ISBN = str(book)
+        book_ID = str(book)
 
-        #if book_ISBN in self.comaper:
-        del self.compare[book_ISBN]
+        #if book_ID in self.comaper:
+        del self.compare[book_ID]
         
         self.session.modified = True
