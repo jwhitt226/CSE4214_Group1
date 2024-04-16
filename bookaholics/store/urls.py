@@ -5,6 +5,7 @@ from .views.listing import browse
 from .views.listing import viewListing
 from .views.login import login_user, logout_user, register_user, accountOptions
 from .views.addListing import processaddListing
+from .views.sellerPage import sellerPage
 
 urlpatterns = [
     path('', welcome, name='welcome'),
@@ -16,4 +17,5 @@ urlpatterns = [
     path('register/', register_user, name='register'),
     path('accountOptions/', accountOptions, name='accountOptions'),
     path('addListing/', processaddListing, name='processaddListing'),
+    path('sellerPage/', sellerPage, name='sellerPage')
 ]
