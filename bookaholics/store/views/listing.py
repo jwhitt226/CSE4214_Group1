@@ -14,6 +14,6 @@ def browse(request):
 def viewListing(request, pk):
     
     #Get book information from Inventory
-    book = Inventory.objects.get(pk=pk)
+    book = Inventory.objects.get(id=pk)
 
     return render(request, 'veiw_listing.html', {'book': book})
