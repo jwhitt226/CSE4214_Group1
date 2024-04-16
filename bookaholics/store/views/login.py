@@ -44,7 +44,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib import messages
-from store.forms import SignUpForm, CustomerSignUpForm
+from store.forms import SignUpForm, CustomerSignUpForm, SellerSignUpForm
 
 def login_user(request):
 
@@ -59,9 +59,9 @@ def login_user(request):
             #messages.success(request, "Successfully logged in")
             role = user.type
             if role == "CUSTOMER":
-                return redirect('browse')
+                return redirect('accountOptions')
             elif role == "SELLER":
-                return redirect('welcome')
+                return redirect('accountOptions')
             return redirect('login')
         else:
             messages.success(request, "Invalid credentials")
@@ -87,22 +87,32 @@ def register_user(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, "Account created! Welcome!")
-            return redirect('browse')
+            return redirect('accountOptions')
         else:
             messages.success(request, "Invalid credentials")
             return redirect('register')
     else:
         return render(request, 'signUp.html', {'form': form})
     
-
-#Does not work yet, is currently circumvented. Form is not showing up
-#To add back, redirect to accountOptions after login
+    
 def accountOptions(request):
     if request.user.is_authenticated:
-        current_user = Customer.objects.get(userID=request.user)
-        form = CustomerSignUpForm(request.POST or None, instance=current_user)
-        if form.is_valid():
-            form.save()
-            message.success(request, "Customer Account Created! Welcome!")
-            return redirect('browse')
-    return render(request, 'customerAccount.html')
+        if request.user.type == "CUSTOMER":
+            current_user = Customer.objects.get(userID_id=request.user.id)
+            form = CustomerSignUpForm(request.POST, instance=current_user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Customer Account Created! Welcome!")
+                return redirect('browse')
+            return render(request, 'customerAccount.html', {'form': form})
+        elif request.user.type == "SELLER":
+            current_user = Seller.objects.get(sellerID_id=request.user.id)
+            form = SellerSignUpForm(request.POST, instance=current_user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Seller Account Created! Welcome!")
+                return redirect('browse')
+            return render(request, 'customerAccount.html', {'form': form})
+    else:
+        messages.success(request, "You are not logged in")
+        return redirect('login')
