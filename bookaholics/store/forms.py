@@ -1,4 +1,4 @@
-from store.models import User, Customer, Seller
+from store.models import User, Customer, Seller, Inventory
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 

@@ -42,7 +42,7 @@
         </div>
       </header>
     
-    <form id="addListing_form" method="post" action="{% url 'processaddListing' %}">
+    <form id="addListing_form" method="post" action="{% url 'processaddListing' %}" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="container my-5">
             <div class="p-5 text-center bg-dark bg-opacity-75 rounded-3">
