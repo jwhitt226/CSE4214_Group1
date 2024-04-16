@@ -20,7 +20,20 @@
 </style>
 </head>
 <body class="bg-dark">
-
+  <div class="container">
+    {% if messages %}
+        {% for message in messages %}
+          <div class="alert 
+          alert-warning
+          alert-dismissable fade show"
+          role="alert">          
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+          </div>
+        {% endfor %}
+      {% endif %}
+  </div>
 
     {%block content%}
     {% endblock %}
@@ -38,7 +51,6 @@
       color:#e7c159;">BOOKAHOLICS</p>
     <p class="text-center mt-0"
     style="font-size: 14px">
-    <a href="" target ="_blank" class="nav-link px-2 link-secondary">Apply to Become a Seller</a></li>
     </p>
   </footer>
 

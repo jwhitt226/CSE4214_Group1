@@ -28,6 +28,8 @@ def deactivate(request):
         u = User.objects.get(id=sellerid)
         u.is_active = False
         u.save()
+        i = Inventory.objects.filter(sellerID=sellerid)
+        i.delete()
 
     return redirect('adminPage')
 
