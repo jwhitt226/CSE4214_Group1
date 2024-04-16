@@ -29,14 +29,10 @@
                   <li><a href="." class="nav-link active px-2 text-secondary">Home</a></li>
                 </ul>
         
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                  <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
-                </form>
-        
                 <div class="text-end">
                   <button type="button" class="btn btn-outline-light" onclick="document.location='editSeller.html'">account name</button>
                   <button type="button" class="btn btn-warning">Logout</button>
-                  <button type="button" class="btn btn-warning" onclick="document.location='addListing.html'">Add Listing</button>
+                  <a class="btn btn-warning" href="{% url 'processaddListing' %}">Add Listing</a>
                 </div>
               </div>
             </div>
@@ -64,7 +60,7 @@
                             <p class="card-text text-white">{{ book.author }}</p> <!--Author Name-->
                             <p class="card-text text-white">${{ book.price }}</p> <!--Price-->
                             <p class="card-text text-white"># in stock: {{ book.stock }}</p> <!--Stock-->
-                            <a href="{% url 'viewListing' book.id %}" class="btn btn-warning">View Listing</a>
+                            <a href="{% url 'viewSellerListing' book.id %}" class="btn btn-warning">View Listing</a>
                         </div>
                     </div>
                 </div>

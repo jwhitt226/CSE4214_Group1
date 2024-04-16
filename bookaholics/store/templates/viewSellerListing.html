@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<body class="bg-dark">
+    <header class="p-3 text-bg-dark bg-black">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"></svg>
+                <!--I wrote the following "span" to be better styled for us since we dont have a technical "logo"
+                I think it looks fine but it can definently be altered to whatever we want.
+              
+                This is also an example of how we could style different elements inside of our website without using
+                Bootstrap presets.-->
+                <span 
+                style="font-size:25px;
+                text-align:center; 
+                line-height:1.5em;
+                font-family:Playfair Display, serif;
+                text-transform:uppercase;letter-spacing: 2px;
+                color:#e7c159;">
+                BookAholics
+              </span>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="{% url 'sellerPage' %}" class="nav-link active px-2 text-secondary">Home</a></li>
+            </ul>
+    
+            <div class="text-end">
+              <button type="button" class="btn btn-outline-light" onclick="document.location='editSeller.html'">account name</button>
+              <button type="button" class="btn btn-warning">Logout</button>
+              <a class="btn btn-warning" href="{% url 'processaddListing' %}">Add Listing</a>
+            </div>
+          </div>
+        </div>
+    </header>
+    <div class="container h-100 py-5">
+        <div class="row ">
+            <div class="col text-end">
+                <img src="{{ book.image.url }}"
+                class="img-fluid rounded-3" alt="Book">
+            </div>
+                <div class="col text-start">
+                    <div class="text-white">
+                        <h2 class="mb-2">{{ book.title }}</h2>
+                        <p class="mb-0">{{ book.author }}</p>
+                        <p class="row">
+                            <h4 class="col mt-5">Listing Price:</h4>
+                        </p>
+                        <h5 class="mb-3"> ${{ book.price }}</h5>
+                        <p>
+                            <a href="{% url 'sellerPage' %}" class="btn btn-warning me-5">Back to Listings</a>
+                            <a href="delete/{{ book.id }}" class="btn btn-danger">
+                                <svg width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"></path>
+                                  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"></path>
+                                </svg>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </body>
+    {% endblock %}
