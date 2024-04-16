@@ -55,9 +55,6 @@
           <li><a href=".." class="nav-link active px-2 text-secondary">Home</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-dark text-bg-dark text-warning" placeholder="Search..." aria-label="Search">
-        </form>
 
         <div class="text-end">
           <button type="button" class="btn btn-outline-light me-2"
@@ -86,7 +83,10 @@
         line-height:1.5em;
         color:#fff;">Please Register with the Appropriate Information</h2>
         
+        <div class="form-floating my-3">
         {{ form.as_p }}
+        </div>
+      
         <!--
     <div class="form-floating my-3">
         <input type="email" class="form-control" id="floatingInput" value="{{values.email}}">

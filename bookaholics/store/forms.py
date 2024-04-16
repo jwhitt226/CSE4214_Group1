@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
 class CustomerSignUpForm(forms.ModelForm):
-    fname = forms.CharField(label = "", widget = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'First Name'}))
+    fname = forms.CharField(label = "", widget = forms.TextInput(attrs = {'class': 'form-control ', 'placeholder': 'First Name'}))
     lname = forms.CharField(label = "", widget = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Last Name'}))
     address = forms.CharField(label = "", widget = forms.TextInput(attrs = {'class': 'form-control', 'placeholder': 'Address'}))
 	
@@ -32,7 +32,7 @@ class SignUpForm(UserCreationForm):
         def __init__(self, *args, **kwargs):
             super(SignUpForm, self).__init__(*args, **kwargs)
 
-            self.fields['userID'].widget.attrs['class'] = 'form-control'
+            self.fields['userID'].widget.attrs['class'] = 'form-control form-floating my-3'
             self.fields['userID'].widget.attrs['placeholder'] = 'User Name'
             self.fields['userID'].label = ''
             self.fields['userID'].help_text = '<span class="form-text text-muted"><small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small></span>'
