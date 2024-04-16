@@ -59,9 +59,9 @@ def login_user(request):
             #messages.success(request, "Successfully logged in")
             role = user.type
             if role == "CUSTOMER":
-                return redirect('accountOptions')
+                return redirect('browse')
             elif role == "SELLER":
-                return redirect('accountOptions')
+                return redirect('sellerPage')
             return redirect('login')
         else:
             messages.success(request, "Invalid credentials")

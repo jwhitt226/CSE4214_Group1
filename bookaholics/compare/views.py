@@ -1,13 +1,16 @@
 from django.shortcuts import render, get_object_or_404
 from .compare import Compare
 from store.models import Inventory
+from store.models import Customer
 from django.http import JsonResponse
 
 
 def compare(request):
+    if request.user.is_authenticated:
+        user = Customer.objects.get(userID=request.user)
     compare = Compare(request)
     compare_books = compare.get_compare
-    return render(request, "compare.html", {"compare_books":compare_books})
+    return render(request, "compare.html", {"compare_books":compare_books, 'customer': user})
 
 
 

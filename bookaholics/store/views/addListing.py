@@ -3,6 +3,8 @@ from ..models import Inventory
 from ..models import Seller
 
 def processaddListing(request):
+    if request.user.is_authenticated:
+        user = Seller.objects.get(sellerID=request.user)
     if request.method == 'POST' and request.FILES['image_name']:
         isbn = request.POST.get('isbn_name')
         title = request.POST.get('title_name')
@@ -18,6 +20,6 @@ def processaddListing(request):
         listing = Inventory(isbn=isbn, title=title, author=author, genre=genre, price=price, stock=stock, image=image, sellerID=sellerID)
         listing.save()
 
-        return render(request, 'userPage.html')
+        return render(request, 'sellerPage.html', {'seller': user})
     else:
-        return render(request, 'addListing.html')
+        return render(request, 'addListing.html', {'seller': user})

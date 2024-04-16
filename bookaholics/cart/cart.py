@@ -1,4 +1,7 @@
 from store.models import Inventory
+from store.models import User
+from store.models import Seller
+from store.models import OrderHist
 from decimal import *
 
 class Cart():
@@ -67,16 +70,20 @@ class Cart():
             key = int(key)
             for book in books:
                 if book.isbn == key:
-                    ttl = ttl + ( Decimal(float(value)) * book.price)
+                    ttl = ttl + (Decimal(float(value)) * book.price)
         return ttl
     
-    def placeOrder(self):
+    def placeOrder(self, userid):
         quantities = self.cart
     
         for key, value in list(quantities.items()):
+            book = Inventory.objects.get(isbn=key)
             Inventory.objects.filter(isbn=key).update(stock=(Inventory.objects.get(isbn=key).stock - int(value)))
+            OrderHist.objects.create(userID=User.objects.get(userID=userid), itemID=Inventory.objects.get(isbn=key), quantity=value, price=(book.price * int(value)))
+            seller = Seller.objects.get(sellerID_id=book.sellerID)
+            seller.credit = seller.credit + (book.price * Decimal(float(value)))
+            seller.save()
             del self.cart[key]
         
         self.session.modified = True
-
 

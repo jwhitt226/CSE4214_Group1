@@ -1,8 +1,9 @@
-{%  extends 'base.html' %}
+{% extends 'base.html' %}
 
-    {% block content %}
-  <!--Beginning of header-->
-  <header class="p-3 text-bg-dark bg-black">
+  {% block content %}
+<!-- The following header was pulled almost exclusively from BootStrap
+I edited it a little bit to fit our needs and we could possible use it for our website-->
+<header class="p-3 text-bg-dark bg-black">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
         <a href="." class="d-inline-flex link-body-emphasis text-decoration-none">
@@ -46,37 +47,59 @@
       </div>
     </div>
   </header>
-      <!--End of Header-->
-            <br>
-              <!--creates the card that holds payment information-->
-              <div class="container">
-                    <div class="row">
-                        <div class="card bg-black text-white" style="font-family:Playfair Display, serif;">
-                            <div class="card-header p-4" style="font-size: x-large; color: #e7c159;">Order Summary<br><p style="font-size: medium;">Shipping to:{{user.userID}}</p></div>
-                                <div class="card-body p-4" style="color: #e7c159;">
-                
-                                {% for book in cart_books %}
-                                    {{ book.title }}: <br>
-                                    ${{ book.price }} <br>
+      <br><br>
 
-                                    Quantity:
-                                    {% for key, value in quantities.items %}
-                                        {% if key == book.isbn|slugify %}
-                                            {{ value }}
-                                        {% endif %}
-                                    {% endfor %}
-
-                                    <br><br>
-                                {% endfor %}
-
-                                Total: {{ totals }} <br>
-                                <a href="{% url 'orderPlace' %}" class="btn btn-warning">Place Order</a>
-                
-                                </div>
-                        </div>
+      
+      <div class="container my-4">
+        <div class="row">
+            <!--This is the listing example (image sizes must stay 600x1000 to stay consistent)-->
+            {% if books.items %}
+            <h1 style="color:#e7c159; text-align: center; font-size: xx-large; font-family:Playfair Display, serif">Past Orders:</h1>
+            {% for order, book in books.items %}
+            <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center mb-3">
+                <div class="card h-100" style="width: 18rem;">
+                    <img src="{{ book.image.url }}" class="card-img-top" alt="...">
+                    <div class="card-body bg-black text-center">
+                        <h5 class="card-title fw-bold text-white">{{ book.title }}</h5> <!--Book Title-->
+                        <p class="card-text text-white">{{ book.author }}</p> <!--Author Name-->
+                        <p class="card-text text-white">${{ order.price }}</p> <!--Price-->
+                        <p class="card-text text-white">Amount purchased: {{ order.quantity }}</p> <!--Price-->
+                        <button type="button" data-index="{{order.orderID}}" class="btn btn-danger refund-book">Refund</button>
                     </div>
                 </div>
-              
-          
+            </div>
+            {% endfor %}
+            {% else %}
+              <br><br><br><br>
+              <p style="color:#e7c159; text-align: center; font-size: xx-large; font-family:Playfair Display, serif">You have not made any orders...</p>
+              {% endif %}
+        </div>
+      </div>
+      
+      <script>
+      //refund
+          $(document).on('click', '.refund-book', function(e) {
+            e.preventDefault();
 
- {% endblock %}
+
+            $.ajax({
+              type: 'POST',
+              url: "{% url 'refund' %}",
+              data: {
+                orderID: $(this).data('index'),
+                csrfmiddlewaretoken: '{{csrf_token}}',
+                action: 'post'
+              },
+              success: function(json){
+                location.reload();
+              },
+              error: function(xhr, errmsg, err){
+
+              }
+            });
+
+          })
+        </script>
+
+      {% endblock %}
+

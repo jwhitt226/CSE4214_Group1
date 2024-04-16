@@ -4,40 +4,40 @@
 
 <body class="bg-dark">
 
-    <header class="p-3 text-bg-dark bg-black">
-        <div class="container">
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                <svg class="bi me-2" width="40" height="32"></svg>
-                <!--I wrote the following "span" to be better styled for us since we dont have a technical "logo"
-                I think it looks fine but it can definently be altered to whatever we want.
-              
-                This is also an example of how we could style different elements inside of our website without using
-                Bootstrap presets.-->
-                <span 
-                style="font-size:25px;
-                text-align:center; 
-                line-height:1.5em;
-                font-family:Playfair Display, serif;
-                text-transform:uppercase;letter-spacing: 2px;
-                color:#e7c159;">
-                BookAholics
-              </span>
-            </a>
+  <header class="p-3 text-bg-dark bg-black">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"></svg>
+            <!--I wrote the following "span" to be better styled for us since we dont have a technical "logo"
+            I think it looks fine but it can definently be altered to whatever we want.
+          
+            This is also an example of how we could style different elements inside of our website without using
+            Bootstrap presets.-->
+            <span 
+            style="font-size:25px;
+            text-align:center; 
+            line-height:1.5em;
+            font-family:Playfair Display, serif;
+            text-transform:uppercase;letter-spacing: 2px;
+            color:#e7c159;">
+            BookAholics
+          </span>
+        </a>
 
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="{% url 'sellerPage' %}" class="nav-link active px-2 text-secondary">Home</a></li>
-            </ul>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="{% url 'sellerPage' %}" class="nav-link active px-2 text-secondary">Home</a></li>
+        </ul>
 
-
-            <div class="text-end">
-              <button type="button" class="btn btn-outline-light" onclick="document.location='editSeller.html'">account name</button>
-              <button type="button" class="btn btn-warning">Logout</button>
-              <a class="btn btn-warning" href="{% url 'processaddListing' %}">Add Listing</a>
-            </div>
-          </div>
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light">{{user.email}}</button>
+          <button type="button" class="btn btn-outline-light">Credit: {{seller.credit}}</button>
+          <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+          <a class="btn btn-warning" href="{% url 'processaddListing' %}">Add Listing</a>
         </div>
-      </header>
+      </div>
+    </div>
+  </header>
 
     <form id="addListing_form" method="post" action="{% url 'processaddListing' %}" enctype="multipart/form-data">
         {% csrf_token %}
