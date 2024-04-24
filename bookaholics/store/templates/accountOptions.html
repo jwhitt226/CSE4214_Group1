@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+<body class="bg-dark">
+
+    <header class="p-3 text-bg-dark bg-black">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"></svg>
+                <!--I wrote the following "span" to be better styled for us since we dont have a technical "logo"
+                I think it looks fine but it can definently be altered to whatever we want.
+              
+                This is also an example of how we could style different elements inside of our website without using
+                Bootstrap presets.-->
+                <span 
+                style="font-size:25px;
+                text-align:center; 
+                line-height:1.5em;
+                font-family:Playfair Display, serif;
+                text-transform:uppercase;letter-spacing: 2px;
+                color:#e7c159;">
+                BookAholics
+              </span>
+            </a>
+
+      </header>
+    
+    <form>
+        {% csrf_token %}
+        <div class="container my-5">
+            <div class="p-5 text-center bg-dark bg-opacity-75 rounded-3">
+        <h1 style="
+        text-align:center; 
+        line-height:1.5em;
+        font-family:Playfair Display, serif;
+        text-transform:uppercase;
+        letter-spacing: 2px;
+        color:#e7c159;">Would you like to shop for books or sell your books?
+        </h1>
+
+          <div class="form-floating mt-3">
+            <select class="form-select" id="select_form">
+              <option value="1">I would like to shop for books!</option>
+              <option value="2">I would like to sell books!</option>
+            </select>
+          </div><br><br>
+        <button class="btn btn-primary py-2 btn-warning" type="submit">Submit</button>
+        <br><br>
+      </form>
+    </div>
+</div>
+
+{% endblock %}

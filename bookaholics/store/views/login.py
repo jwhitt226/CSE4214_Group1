@@ -39,9 +39,12 @@
 #     return redirect('login')
 
 from django.shortcuts import render, redirect
-from store.models import User
+from store.models import User, Customer, Seller
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
 from django.contrib import messages
+from store.forms import SignUpForm, CustomerSignUpForm, SellerSignUpForm
 
 def login_user(request):
 
@@ -51,11 +54,20 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, "You have been logged in")
             #this needs to be cleaned up and given a message
             #messages.success(request, "Successfully logged in")
-            return redirect('browse')
+            role = user.type
+            if role == "CUSTOMER":
+                return redirect('browse')
+            elif role == "SELLER":
+                return redirect('sellerPage')
+            elif role == "ADMIN":
+                return redirect('adminPage')
+            return redirect('login')
+        
         else:
-#            messages.error(request, "Invalid credentials")
+            messages.success(request, "Invalid credentials")
             return redirect('login')
 
     else:
@@ -66,3 +78,44 @@ def logout_user(request):
     logout(request)
     messages.success(request, "Successfully logged out")
     return redirect('welcome')
+
+def register_user(request):
+    form = SignUpForm()
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('userID')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, "Account created! Welcome!")
+            return redirect('accountOptions')
+        else:
+            messages.success(request, "Invalid credentials")
+            return redirect('register')
+    else:
+        return render(request, 'signUp.html', {'form': form})
+    
+    
+def accountOptions(request):
+    if request.user.is_authenticated:
+        if request.user.type == "CUSTOMER":
+            current_user = Customer.objects.get(userID_id=request.user.id)
+            form = CustomerSignUpForm(request.POST, instance=current_user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Customer Account Created! Welcome!")
+                return redirect('browse')
+            return render(request, 'customerAccount.html', {'form': form})
+        elif request.user.type == "SELLER":
+            current_user = Seller.objects.get(sellerID_id=request.user.id)
+            form = SellerSignUpForm(request.POST, instance=current_user)
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Seller Account Created! Welcome!")
+                return redirect('sellerPage')
+            return render(request, 'customerAccount.html', {'form': form})
+    else:
+        messages.success(request, "You are not logged in")
+        return redirect('login')

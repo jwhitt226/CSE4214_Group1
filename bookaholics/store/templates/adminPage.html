@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+    <header class="p-3 text-bg-dark bg-black">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="." class="d-inline-flex link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"></svg>
+                <!--I wrote the following "span" to be better styled for us since we dont have a technical "logo"
+                I think it looks fine but it can definently be altered to whatever we want.
+              
+                This is also an example of how we could style different elements inside of our website without using
+                Bootstrap presets.-->
+                <span 
+                style="font-size:25px;
+                text-align:center; 
+                line-height:1.5em;
+                font-family:Playfair Display, serif;
+                text-transform:uppercase;letter-spacing: 2px;
+                color:#e7c159;">
+                BookAholics
+              </span>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="{% url 'adminPage' %}" class="nav-link active px-2 text-secondary">Home</a></li>
+            </ul>
+    
+            <div class="text-end">
+              <button type="button" class="btn btn-outline-light">{{ user.email }}</button>
+              <a href="{% url 'logout' %}" class="btn btn-warning">Logout</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist" style="color:#e7c159">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="listings-tab" data-bs-toggle="tab" data-bs-target="#listings-tab-pane" type="button" role="tab" aria-controls="listings-tab-pane" aria-selected="true" style="color:#e7c159">Listings</button>
+          </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="accounts-tab" data-bs-toggle="tab" data-bs-target="#accounts-tab-pane" type="button" role="tab" aria-controls="accounts-tab-pane" aria-selected="false" style="color:#e7c159">Customers</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="sellers-tab" data-bs-toggle="tab" data-bs-target="#sellers-tab-pane" type="button" role="tab" aria-controls="sellers-tab-pane" aria-selected="false" style="color:#e7c159">Sellers</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent">
+
+
+        <div class="tab-pane fade show active" id="listings-tab-pane" role="tabpanel" aria-labelledby="listings-tab" tabindex="0">
+            <div class="container my-4">
+                <div class="row">
+                    <!--This is the listing example (image sizes must stay 600x1000 to stay consistent)-->
+                    {% for book in books %}
+                    <div class="col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center mb-3">
+                        <div class="card h-100" style="width: 18rem;">
+                            <img src="{{ book.image.url }}" class="card-img-top" alt="...">
+                            <div class="card-body bg-black text-center">
+                                <h5 class="card-title fw-bold text-white">{{ book.title }}</h5> <!--Book Title-->
+                                <p class="card-text text-white">{{ book.author }}</p> <!--Author Name-->
+                                <p class="card-text text-white">${{ book.price }}</p> <!--Price-->
+                                <p class="card-text text-white"># in stock: {{ book.stock }}</p> <!--Stock-->
+                                <button type="button" data-index="{{book.id}}" class="btn btn-danger remove-book">Remove Listing</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+        
+                </div>
+            </div>
+        </div>
+        
+        
+
+        <div class="tab-pane fade" id="accounts-tab-pane" role="tabpanel" aria-labelledby="accounts-tab" tabindex="0">
+            <ul class="list-group list-group-flush">
+                {% for customer in customers %}
+                <li class="list-group-item" style="color:#e7c159;">
+                    {{customer.email}}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="button" data-index="{{customer.id}}" class="btn btn-danger deactivate-user">Deactivate</button>
+                    </div>
+                </li>
+                {% endfor %}
+        </div>
+
+
+
+        <div class="tab-pane fade" id="sellers-tab-pane" role="tabpanel" aria-labelledby="sellers-tab" tabindex="0">
+            <ul class="list-group list-group-flush">
+                {% for seller in a_sellers %}
+                <li class="list-group-item" style="color:#e7c159;">
+                    {{seller.name}}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="button" data-index="{{seller.sellerID_id}}" class="btn btn-danger deactivate-seller">Deactivate</button>
+                    </div>
+                </li>
+                {% endfor %}
+                {% for seller in i_sellers %}
+                <li class="list-group-item" style="color:#e7c159;">
+                    {{seller.name}}
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="button" data-index="{{seller.sellerID_id}}" class="btn btn-success activate-seller">Activate</button>
+                    </div>
+                </li>
+                {% endfor %}
+        </div>
+
+
+      </div>
+      <script>
+        //remove listing
+        $(document).on('click', '.remove-book', function(e) {
+                    e.preventDefault();
+
+
+                    $.ajax({
+                    type: 'POST',
+                    url: "{% url 'removeBook' %}",
+                    data: {
+                        bookid: $(this).data('index'),
+                        csrfmiddlewaretoken: '{{csrf_token}}',
+                        action: 'post'
+                    },
+                    success: function(json){
+                        location.reload();
+                    },
+                    error: function(xhr, errmsg, err){
+
+                    }
+                    });
+
+                })
+        //remove seller
+        $(document).on('click', '.deactivate-seller', function(e) {
+                    e.preventDefault();
+
+
+                    $.ajax({
+                    type: 'POST',
+                    url: "{% url 'deactivate' %}",
+                    data: {
+                        sellerid: $(this).data('index'),
+                        csrfmiddlewaretoken: '{{csrf_token}}',
+                        action: 'post'
+                    },
+                    success: function(json){
+                        location.reload();
+                    },
+                    error: function(xhr, errmsg, err){
+
+                    }
+                    });
+
+                })
+        //activate seller
+        $(document).on('click', '.activate-seller', function(e) {
+                    e.preventDefault();
+
+
+                    $.ajax({
+                    type: 'POST',
+                    url: "{% url 'activate' %}",
+                    data: {
+                        sellerid: $(this).data('index'),
+                        csrfmiddlewaretoken: '{{csrf_token}}',
+                        action: 'post'
+                    },
+                    success: function(json){
+                        location.reload();
+                    },
+                    error: function(xhr, errmsg, err){
+
+                    }
+                    });
+
+                })
+        //deactivate user
+        $(document).on('click', '.deactivate-user', function(e) {
+                    e.preventDefault();
+
+
+                    $.ajax({
+                    type: 'POST',
+                    url: "{% url 'deactivateUser' %}",
+                    data: {
+                        customerid: $(this).data('index'),
+                        csrfmiddlewaretoken: '{{csrf_token}}',
+                        action: 'post'
+                    },
+                    success: function(json){
+                        location.reload();
+                    },
+                    error: function(xhr, errmsg, err){
+
+                    }
+                    });
+
+                })
+
+
+
+
+      </script>
+
+{% endblock %}
